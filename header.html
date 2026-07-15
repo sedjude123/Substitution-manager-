@@ -1,0 +1,21 @@
+﻿<div class="bg-dark text-white p-3 d-flex justify-content-between align-items-center mb-4 rounded shadow-sm">
+    <h4 class="mb-0">🏫 Faculty Substitution Portal</h4>
+    <div class="text-end">
+        <div class="fw-bold text-info" id="ist-clock">Syncing Clock (IST)...</div>
+        <small class="text-warning" id="lock-countdown">Time to System Lock: --:--:--</small>
+    </div>
+</div>
+<script>
+function startRealtimeClock() {
+    setInterval(() => {
+        const now = new Date();
+        const options = { timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+        const istString = new Intl.DateTimeFormat('en-US', options).format(now);
+        document.getElementById('ist-clock').innerText = "Current Time: " + istString + " IST";
+        const parts = istString.split(':');
+        const remSecs = 86399 - ((parseInt(parts[0]) * 3600) + (parseInt(parts[1]) * 60) + parseInt(parts[2]));
+        document.getElementById('lock-countdown').innerText = `Time to System Lock: ${String(Math.floor(remSecs / 3600)).padStart(2, '0')}:${String(Math.floor((remSecs % 3600) / 60)).padStart(2, '0')}:${String(remSecs % 60).padStart(2, '0')}`;
+    }, 1000);
+}
+window.addEventListener('DOMContentLoaded', startRealtimeClock);
+</script>
